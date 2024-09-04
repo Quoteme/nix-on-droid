@@ -1,6 +1,7 @@
 { config, pkgs, attrs, ... }:
 {
   programs.git.enable = true;
+  programs.gh.enable = true;
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
