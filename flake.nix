@@ -22,18 +22,17 @@
       modules = [
         ./nix-on-droid.nix
 
-        # home-manager.nixosModules.home-manager
-        # {
-        #   home-manager.useGlobalPkgs = true;
-        #   home-manager.useUserPackages = true;
-        #   home-manager.users.nix-on-droid.imports = [
-        #     ./home.nix
-        #   ];
-        #   home-manager.backupFileExtension = "backup";
-        #   home-manager.extraSpecialArgs = {
-        #     inherit attrs;
-        #   };
-        # }
+         # home-manager.nixosModules.home-manager {
+         #   home-manager.useGlobalPkgs = true;
+         #   home-manager.useUserPackages = true;
+         #   home-manager.users.nix-on-droid.imports = [
+         #     ./home.nix
+         #   ];
+         #   home-manager.backupFileExtension = "backup";
+         #   home-manager.extraSpecialArgs = {
+         #     inherit attrs;
+         #   };
+         # }
       ];
     };
 

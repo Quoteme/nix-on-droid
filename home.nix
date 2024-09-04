@@ -1,17 +1,18 @@
 { config, pkgs, attrs, ... }:
 {
+  programs.git.enable = true;
   programs.zsh = {
     enable = true;
+    defaultKeymap = "viins";
     shellAliases = {
       # Monti
       montissh = "TERM=xterm-256color ssh mmbs@monti.ai";
       montipostgres = "ssh -L 5432:localhost:5432 mmbs@monti.ai";
-      '';
 
       l = "${pkgs.eza}/bin/eza";
-      lg = "lazygit";
-      ll = "eza --long --icons --color --hyperlink";
-      lt = "eza --long --tree --icons --color --hyperlink";
+      lg = "${pkgs.lazygit}/bin/lazygit";
+      ll = "${pkgs.eza}/bin/eza --long --icons --color --hyperlink";
+      lt = "${pkgs.eza}/bin/eza --long --tree --icons --color --hyperlink";
       v = "nvim";
       vi = "nvim";
       vim = "nvim";
