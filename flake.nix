@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -15,26 +16,39 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-on-droid, home-manager }@attrs: {
+  outputs = { self, nixpkgs, nix-on-droid, home-manager }@attrs:
+    let
+      system = "aarch64-linux";
+    in
+    {
+      nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            (final: prev: {
+              stable = import attrs.nixpkgs-unstable {
+                inherit system;
+                config.allowUnfree = true;
+              };
+            })
+          ];
+        };
+        modules = [
+          ./nix-on-droid.nix
 
-    nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-      pkgs = import nixpkgs { system = "aarch64-linux"; };
-      modules = [
-        ./nix-on-droid.nix
+          # home-manager.nixosModules.home-manager {
+          #   home-manager.useGlobalPkgs = true;
+          #   home-manager.useUserPackages = true;
+          #   home-manager.users.nix-on-droid.imports = [
+          #     ./home.nix
+          #   ];
+          #   home-manager.backupFileExtension = "backup";
+          #   home-manager.extraSpecialArgs = {
+          #     inherit attrs;
+          #   };
+          # }
+        ];
+      };
 
-         # home-manager.nixosModules.home-manager {
-         #   home-manager.useGlobalPkgs = true;
-         #   home-manager.useUserPackages = true;
-         #   home-manager.users.nix-on-droid.imports = [
-         #     ./home.nix
-         #   ];
-         #   home-manager.backupFileExtension = "backup";
-         #   home-manager.extraSpecialArgs = {
-         #     inherit attrs;
-         #   };
-         # }
-      ];
     };
-
-  };
 }
