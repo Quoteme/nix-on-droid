@@ -1,5 +1,6 @@
 { config, pkgs, attrs, ... }:
 {
+  programs.bat.enable = true;
   programs.git.enable = true;
   programs.gh.enable = true;
   programs.zsh = {
@@ -29,6 +30,15 @@
     enableZshIntegration = true;
     enableNushellIntegration = true;
     nix-direnv.enable = true;
+  };
+  programs.neovim = {
+    enable = true;
+    package = pkgs.unstable.neovim;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    withPython3 = false;
+    withRuby = false;
   };
   programs.bash = {
     enable = true;
@@ -102,6 +112,16 @@
         success_symbol = "[➜](bold green)";
         error_symbol = "[➜](bold red)";
       };
+    };
+  };
+  programs.yt-dlp = {
+    enable = true;
+    settings = {
+      embed-thumbnail = true;
+      embed-subs = true;
+      sub-langs = "en,de";
+      downloader = "aria2c";
+      downloader-args = "aria2c:'-c -x8 -s8 -k1M'";
     };
   };
   home.stateVersion = "24.05";

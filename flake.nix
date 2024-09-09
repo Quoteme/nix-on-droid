@@ -5,6 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,7 +18,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-on-droid, home-manager }@attrs:
+  outputs = { self, nixpkgs, nix-on-droid, home-manager, ... }@inputs:
     let
       system = "aarch64-linux";
     in
@@ -26,11 +28,12 @@
           inherit system;
           overlays = [
             (final: prev: {
-              stable = import attrs.nixpkgs-unstable {
+              unstable = import inputs.nixpkgs-unstable {
                 inherit system;
                 config.allowUnfree = true;
               };
             })
+            inputs.neovim-nightly-overlay.overlays.default
           ];
         };
         modules = [
@@ -44,7 +47,7 @@
           #   ];
           #   home-manager.backupFileExtension = "backup";
           #   home-manager.extraSpecialArgs = {
-          #     inherit attrs;
+          #     inherit inputs;
           #   };
           # }
         ];

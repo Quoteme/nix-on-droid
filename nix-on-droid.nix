@@ -3,7 +3,12 @@
 {
   # Simply install just the packages
   environment.packages = with pkgs; [
-    neovim
+    # unstable.neovim
+    python313
+    nodejs
+    R
+    nil
+    texlab
     ripgrep
     gnused
     findutils
@@ -64,11 +69,26 @@
       # narHash = pkgs.narHash;
     };
   };
+  nix.substituters = [
+    "https://nix-community.cachix.org/"
+    "https://gvolpe-nixos.cachix.org"
+    "https://cuda-maintainers.cachix.org"
+    "https://cache.nixos.org/"
+    "https://lean4.cachix.org/"
+  ];
+  nix.trustedPublicKeys = [
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "gvolpe-nixos.cachix.org-1:0MPlBIMwYmrNqoEaYTox15Ds2t1+3R+6Ycj0hZWMcL0="
+    "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "lean4.cachix.org-1:mawtxSxcaiWE24xCXXgh3qnvlTkyU7evRRnGeAhD4Wk="
+  ];
 
   # Set your time zone
   time.timeZone = "Europe/Berlin";
 
   home-manager.config = ./home.nix;
+  home-manager.useGlobalPkgs = true;
 
   user.shell = "${pkgs.zsh}/bin/zsh";
   terminal.font = ~/.config/nix-on-droid/assets/font.ttf;
