@@ -7,6 +7,8 @@
     python313
     nodejs
     R
+    curl
+    nodejs
     nil
     texlab
     ripgrep
